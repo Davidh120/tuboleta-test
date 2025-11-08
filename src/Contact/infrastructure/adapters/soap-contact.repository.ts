@@ -23,7 +23,7 @@ export class SoapContactRepository implements ContactRepository {
       }
       
       this.client = await this.soapClientService.createClient({
-        wsdlUrl: this.soapConf.wsdlUrl + '.contact.v2_21.ContactInformationPublicService.webservice?wsdl',
+        wsdlUrl: this.soapConf.wsdlUrl + '/tnco/external-remoting/com.secutix.service.contact.v2_21.ContactInformationPublicService.webservice?wsdl',
         username: this.soapConf.username,
         password: this.soapConf.password,
       });
