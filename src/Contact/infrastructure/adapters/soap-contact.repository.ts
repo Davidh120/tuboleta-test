@@ -4,6 +4,7 @@ import { ContactRepository } from '../../domain/ports/contact.repository';
 import { SoapClientService } from 'src/shared/infrastructure/soap/soap-client.service';
 import type { ConfigType } from '@nestjs/config';
 import { soapConfig } from 'src/shared/config/soap.config';
+import { SoapContactMapper } from '../mappers/soap-contact.mapper';
 
 @Injectable()
 export class SoapContactRepository implements ContactRepository {
@@ -48,25 +49,7 @@ export class SoapContactRepository implements ContactRepository {
         throw new Error('No individual contact data found in response');
       }
       
-      return new Contact(
-        Number(contactData.contactId) || 0,
-        Number(contactData.contactNumber) || contactNumber,
-        individualContact.login || '',
-        individualContact.email || '',
-        individualContact.individualFirstname || '',
-        individualContact.individualLastname || '',
-        individualContact.individualGender?.toLowerCase() || 'other',
-        individualContact.countryCode || '',
-        individualContact.phoneNumber1 || '',
-        individualContact.zipCode || '',
-        contactData.role || individualContact.role || '',
-        contactData.state || '',
-        contactData.creationDate || new Date().toISOString(),
-        contactData.endValidityDate || '',
-        contactData.type || 'INDIVIDUAL',
-        contactData.guest || false,
-        individualContact.active || false
-      );
+       return SoapContactMapper.toDomain({ contactData, individualContact }, contactNumber);
     } catch (error) {
       console.error('Error in SoapContactRepository.getContactById:', error);
       throw new Error(`Failed to fetch contact from SOAP service: ${error.message}`);
