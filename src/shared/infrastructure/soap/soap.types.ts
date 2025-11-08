@@ -3,6 +3,7 @@ export interface SoapClientOptions {
   username: string;
   password: string;
   wsdlOptions?: any;
+  mustUnderstand?: boolean;
 }
 
 export interface SoapClientResponse<T = any> {
