@@ -20,6 +20,9 @@ importers:
       '@nestjs/platform-fastify':
         specifier: ^11.1.8
         version: 11.1.8(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)
+      '@types/soap':
+        specifier: ^0.21.0
+        version: 0.21.0
       fastify:
         specifier: ^5.6.1
         version: 5.6.1
@@ -32,6 +35,9 @@ importers:
       soap:
         specifier: ^1.6.0
         version: 1.6.0
+      wssecurity:
+        specifier: ^0.2.4
+        version: 0.2.4
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -901,6 +907,10 @@ packages:
   '@types/serve-static@1.15.10':
     resolution: {integrity: sha512-tRs1dB+g8Itk72rlSI2ZrW6vZg0YrLI81iQSTkMmOqnqCaNr/8Ek4VwWcN5vZgCYWbg/JJSGBlUaYGAOP73qBw==}
 
+  '@types/soap@0.21.0':
+    resolution: {integrity: sha512-NFT751PfjmIMJz5m/AHfygq8x2svHU4Bi2CXATSjrk9S2Elv19yu6rDf6foER4+o/mwMESTZrvqq5BS91a0uAg==}
+    deprecated: This is a stub types definition for soap (https://www.npmjs.com/package/soap). soap provides its own type definitions, so you don't need @types/soap installed!
+
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
 
@@ -1503,6 +1513,10 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  crypto@0.0.3:
+    resolution: {integrity: sha512-Q6Ka98WcvWXXg+9cnqd3jHpTSIOaH6/q0m/bESMfQo/0uFxy6e/7EqVS4JdaWx9qLdqV56tDufy2b12dj7BHJg==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -3193,6 +3207,9 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
+  wssecurity@0.2.4:
+    resolution: {integrity: sha512-+eg92rSDrDZOMnzF/KaLm4pZLowdHOJPKrubLxWqiaFCg6Spa23lmUutoEfT7A0Zrpb8oNgIQYJ6fQwatZLTzg==}
+
   xml-crypto@6.1.2:
     resolution: {integrity: sha512-leBOVQdVi8FvPJrMYoum7Ici9qyxfE4kVi+AkpUoYCSXaQF4IlBm1cneTK9oAxR61LpYxTx7lNcsnBIeRpGW2w==}
     engines: {node: '>=16'}
@@ -4254,6 +4271,12 @@ snapshots:
       '@types/node': 22.19.0
       '@types/send': 0.17.6
 
+  '@types/soap@0.21.0':
+    dependencies:
+      soap: 1.6.0
+    transitivePeerDependencies:
+      - supports-color
+
   '@types/stack-utils@2.0.3': {}
 
   '@types/superagent@8.1.9':
@@ -4884,6 +4907,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  crypto@0.0.3: {}
 
   debug@4.4.3:
     dependencies:
@@ -6789,6 +6814,10 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
+
+  wssecurity@0.2.4:
+    dependencies:
+      crypto: 0.0.3
 
   xml-crypto@6.1.2:
     dependencies:
