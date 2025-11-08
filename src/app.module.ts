@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ContactsModule } from './Contact/contacts.module';
+import { CatalogModule } from './Catalog/catalog.module';
 import { soapConfig } from './shared/config/soap.config';
 
 @Module({
@@ -10,6 +11,7 @@ import { soapConfig } from './shared/config/soap.config';
       load: [soapConfig],
     }),
     ContactsModule,
+    CatalogModule,
   ],
   controllers: [],
   providers: [],
