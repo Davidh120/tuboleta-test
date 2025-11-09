@@ -34,8 +34,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha,format=long,prefix=,suffix=,enable=${{ github.event_name != 'tag' }}
             type=ref,event=tag
+            type=ref,event=branch,branch=main,format=ref,name=latest
+            type=sha,format=long,prefix=,suffix=,enable=${{ github.event_name != 'tag' }}
             type=ref,event=pr
 
       - name: Build and push
