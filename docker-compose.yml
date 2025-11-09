@@ -8,10 +8,10 @@ services:
     container_name: tuboleta-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=${PORT}
       - SOAP_WSDL_URL=${SOAP_WSDL_URL}
       - SOAP_USERNAME=${SOAP_USERNAME}
       - SOAP_PASSWORD=${SOAP_PASSWORD}
