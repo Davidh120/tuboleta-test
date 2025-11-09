@@ -48,8 +48,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            SOAP_WSDL_URL=${{ secrets.SOAP_WSDL_URL }}
-            SOAP_USERNAME=${{ secrets.SOAP_USERNAME }}
-            SOAP_PASSWORD=${{ secrets.SOAP_PASSWORD }}
-            PORT=${{ secrets.PORT }}
