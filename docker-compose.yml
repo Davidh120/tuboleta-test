@@ -17,6 +17,7 @@ services:
       - SOAP_PASSWORD=${SOAP_PASSWORD}
     volumes:
       - ./logs:/app/logs
+      - ./public:/app/public
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s

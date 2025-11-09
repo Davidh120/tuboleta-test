@@ -4,13 +4,14 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
+COPY scripts/ ./scripts/
 
 RUN npm install -g pnpm
 RUN pnpm install
 
 COPY . .
 
-RUN pnpm run build
+RUN pnpm run build && pnpm run postbuild
 
 FROM node:18-alpine
 
@@ -23,12 +24,11 @@ RUN npm install -g pnpm
 RUN pnpm install --prod
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/public ./public
 
-# Environment variables will be provided at runtime by Render
 ENV PORT=3000
 ENV NODE_ENV=production
-
-# These will be overridden by Render's environment variables
 ENV SOAP_WSDL_URL=""
 ENV SOAP_USERNAME=""
 ENV SOAP_PASSWORD=""

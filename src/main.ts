@@ -8,10 +8,11 @@ import { join } from 'path';
 
 async function bootstrap() {
   const port = process.env.PORT || 3000;
+  const isProduction = process.env.NODE_ENV === 'production';
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter({ logger: true }),
   );
 
   const config = new DocumentBuilder()
@@ -24,25 +25,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   
   await app.register(fastifyStatic, {
-    root: join(__dirname, '..', 'node_modules', 'swagger-ui-dist'),
-    prefix: '/swagger-ui/',
-  });
-  const fastifyInstance = app.getHttpAdapter().getInstance();
-  
-  fastifyInstance.get('/swagger-ui/swagger-ui.css', (req, reply) => {
-    reply.sendFile('swagger-ui.css');
-  });
-  fastifyInstance.get('/swagger-ui/swagger-ui-bundle.js', (req, reply) => {
-    reply.sendFile('swagger-ui-bundle.js');
+    root: join(__dirname, '..', '..', 'public'),
+    prefix: '/public/',
+    decorateReply: !isProduction,
   });
 
-  fastifyInstance.get('/swagger-ui/swagger-ui-standalone-preset.js', (req, reply) => {
-    reply.sendFile('swagger-ui-standalone-preset.js');
-  });
   app.setGlobalPrefix('api', {
-    exclude: ['docs', 'swagger-ui', 'api-json', 'docs-json'],
+    exclude: ['docs', 'public', 'api-json'],
   });
-
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -54,18 +44,18 @@ async function bootstrap() {
     customSiteTitle: 'Tuboleta API',
     customCss: `
       .swagger-ui .topbar { display: none }
-      .swagger-ui .scheme-container {
-        display: none !important;
-      }
-      .swagger-ui .authorize-wrapper {
-        display: none !important;
-      }
+      .swagger-ui .scheme-container { display: none !important; }
+      .swagger-ui .authorize-wrapper { display: none !important; }
     `,
     customJs: [
-      '/swagger-ui/swagger-ui-bundle.js',
-      '/swagger-ui/swagger-ui-standalone-preset.js',
+      '/public/swagger-ui/swagger-ui-bundle.js',
+      '/public/swagger-ui/swagger-ui-standalone-preset.js',
     ],
-    customCssUrl: '/swagger-ui/swagger-ui.css',
+    customCssUrl: '/public/swagger-ui/swagger-ui.css',
+    swaggerOptions: {
+      persistAuthorization: true,
+      tryItOutEnabled: true,
+    },
   });
 
   app.useGlobalPipes(
@@ -78,6 +68,10 @@ async function bootstrap() {
 
   await app.listen(port, '0.0.0.0');
   console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`API Documentation available at: http://localhost:${port}/docs`);
 }
 
-bootstrap();
+bootstrap().catch(err => {
+  console.error('Error starting the application:', err);
+  process.exit(1);
+});
