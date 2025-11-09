@@ -36,10 +36,6 @@ export class SoapClientService implements OnModuleInit, OnModuleDestroy {
 
       this.client.setSecurity(this.security);
 
-      const methods = Object.keys(this.client).filter(key =>
-        key.endsWith('Async') && typeof this.client?.[key] === 'function'
-      );
-
       return {
         call: async <T = any>(method: string, args: any): Promise<SoapClientResponse<T>> => {
           try {
@@ -78,39 +74,6 @@ export class SoapClientService implements OnModuleInit, OnModuleDestroy {
       console.error('Error creating SOAP client:', error);
       throw new Error(`Failed to create SOAP client: ${error.message}`);
     }
-
-    return {
-      call: async <T = any>(method: string, args: any): Promise<SoapClientResponse<T>> => {
-        if (!this.client) {
-          throw new Error('SOAP client not initialized');
-        }
-
-        const methodName = `${method}Async`;
-        if (typeof this.client[methodName] !== 'function') {
-          throw new Error(`SOAP method '${method}' not found`);
-        }
-
-        try {
-          const [result, rawResponse, soapHeader] = await this.client[methodName](args);
-          return {
-            result,
-            response: rawResponse,
-            rawResponse: rawResponse ? rawResponse.toString() : '',
-            soapHeader,
-          };
-        } catch (error) {
-          console.error('SOAP call failed:', error);
-          throw error;
-        }
-      },
-      setSecurity: (security: any) => {
-        this.security = security;
-        if (this.client) {
-          this.client.setSecurity(security);
-        }
-      },
-      getClient: () => this.client,
-    };
   }
 
   async onModuleInit() {
