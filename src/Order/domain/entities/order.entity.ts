@@ -19,6 +19,7 @@ export class OrderData {
     public orderId: string,
     public orderSecretId: string | null,
     public origin: OrderOrigin | null,
+    public orderState: string,
   ) {}
 }
 
